@@ -100,7 +100,8 @@ void play_music(int song_index) {
         {music_3, sizeof(music_3) / sizeof(Note)},
         {music_4, sizeof(music_4) / sizeof(Note)},
         {music_5, sizeof(music_5) / sizeof(Note)},
-        {music_6, sizeof(music_6) / sizeof(Note)}
+        {music_6, sizeof(music_6) / sizeof(Note)},
+        {raycaster_bg_theme, sizeof(raycaster_bg_theme) / sizeof(Note)}
     };
     uint32_t n_songs = sizeof(songs) / sizeof(Song);
 
