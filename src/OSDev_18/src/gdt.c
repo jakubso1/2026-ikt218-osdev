@@ -1,0 +1,38 @@
+#include <kernel/gdt.h>
+
+static struct GdtEntry gdtEntries[3];
+static struct GdtDescriptor gdtDescriptor;
+
+extern void gdtFlush(uint32_t gdtDescriptorAddress);
+
+static void gdtSetEntry(
+    uint32_t index,
+    uint32_t base,
+    uint32_t limit,
+    uint8_t access,
+    uint8_t granularity
+) {
+    gdtEntries[index].base_low = (uint16_t)(base & 0xFFFF);
+    gdtEntries[index].base_middle = (uint8_t)((base >> 16) & 0xFF);
+    gdtEntries[index].base_high = (uint8_t)((base >> 24) & 0xFF);
+
+    gdtEntries[index].limit_low = (uint16_t)(limit & 0xFFFF);
+    gdtEntries[index].granularity = (uint8_t)((limit >> 16) & 0x0F);
+    gdtEntries[index].granularity |= (uint8_t)(granularity & 0xF0);
+    gdtEntries[index].access = access;
+}
+
+void  gdtInitialize(void) {
+    gdtDescriptor.size = sizeof(gdtEntries) - 1;
+    gdtDescriptor.offset = (uint32_t)&gdtEntries;
+
+    gdtSetEntry(0, 0, 0, 0, 0);
+
+    // Kernel code segment: base 0, 4 GiB span, ring 0, executable, readable
+    gdtSetEntry(1, 0, 0x000FFFFF, 0x9A, 0xCF);
+
+    // Kernel data segment: base 0, 4 GiB span, ring 0, writable
+    gdtSetEntry(2, 0, 0x000FFFFF, 0x92, 0xCF);
+
+    gdtFlush((uint32_t)&gdtDescriptor);
+}

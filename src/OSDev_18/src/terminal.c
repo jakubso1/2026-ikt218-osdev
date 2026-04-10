@@ -1,3 +1,4 @@
+#include <kernel/gdt.h>
 #include <kernel/terminal.h>
 
 const size_t VGA_HEIGHT = 25;
