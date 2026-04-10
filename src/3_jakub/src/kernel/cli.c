@@ -5,6 +5,7 @@
 #include "common.h"
 #include "memory/heap.h"
 #include "kernel/pit.h"
+#include "interrupts/isr.h"
 #include "libc/stdio.h"
 
 #define HISTORY_CAPACITY 32
@@ -107,6 +108,7 @@ static void print_help(void)
     printf("uptime       Show uptime in milliseconds\n");
     printf("music <idx>  Play the song with index (0-8)\n");
     printf("game         Play the ASCII raycaster FPS\n");
+    printf("interrupt    Run CPU exceptions (0x00-0x1F)\n");
     printf("echo <text>  Print text back to the screen\n");
     printf("about        Show kernel feature summary\n");
     printf("Keyboard:\n");
@@ -121,6 +123,55 @@ static void print_about(void)
     terminal_print_logo();
     printf("Interrupts, paging, heap, PIT, keyboard history, scrollback\n");
     printf("History entries are stored on the heap.\n");
+}
+
+static void show_exception_without_fault(uint32_t interrupt_number)
+{
+    registers_t regs = {0};
+    regs.int_no = interrupt_number;
+    isr_handler(&regs);
+}
+
+static void run_interrupt_demo(void)
+{
+    terminal_initialize();
+    printf("Interrupt test page\n");
+    printf("Running CPU exceptions 0x00-0x1F...\n\n");
+
+    asm volatile("int $0x00");
+    asm volatile("int $0x01");
+    asm volatile("int $0x02");
+    asm volatile("int $0x03");
+    asm volatile("int $0x04");
+    asm volatile("int $0x05");
+    asm volatile("int $0x06");
+    asm volatile("int $0x07");
+    show_exception_without_fault(8);
+    asm volatile("int $0x09");
+    show_exception_without_fault(10);
+    show_exception_without_fault(11);
+    show_exception_without_fault(12);
+    show_exception_without_fault(13);
+    show_exception_without_fault(14);
+    asm volatile("int $0x0F");
+    asm volatile("int $0x10");
+    asm volatile("int $0x11");
+    asm volatile("int $0x12");
+    asm volatile("int $0x13");
+    asm volatile("int $0x14");
+    asm volatile("int $0x15");
+    asm volatile("int $0x16");
+    asm volatile("int $0x17");
+    asm volatile("int $0x18");
+    asm volatile("int $0x19");
+    asm volatile("int $0x1A");
+    asm volatile("int $0x1B");
+    asm volatile("int $0x1C");
+    asm volatile("int $0x1D");
+    asm volatile("int $0x1E");
+    asm volatile("int $0x1F");
+
+    printf("\nDone triggering CPU exceptions 0x00-0x1F.\n");
 }
 
 static void save_history_entry(const char *line)
@@ -235,6 +286,11 @@ static void execute_command(const char *command)
     if (cli_streq(command, "game")) {
         raycaster_input_request_launch();
         printf("Starting game...\n");
+        return;
+    }
+
+    if (cli_streq(command, "interrupt")) {
+        run_interrupt_demo();
         return;
     }
 
