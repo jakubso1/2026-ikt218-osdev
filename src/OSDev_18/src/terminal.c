@@ -116,3 +116,13 @@ void TerminalWriteUInt(uint32_t num) {
     }
 }
 
+void TerminalWriteHex(uint32_t num) {
+    TerminalWriteString("0x");
+
+    char hexChars[] = "0123456789ABCDEF";
+
+    for (int i = 28; i >= 0; i -= 4) {
+        uint8_t digit = (num >> i) & 0xF;
+        TerminalPutChar(hexChars[digit]);
+    }
+}

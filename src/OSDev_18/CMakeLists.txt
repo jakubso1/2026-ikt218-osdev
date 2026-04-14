@@ -67,6 +67,9 @@ add_executable(uiaos-kernel
 	src/interrupt.c
 	src/interrupt.asm
 	src/keyboard.c
+	src/malloc.c
+	src/memutils.c
+	src/memory.c
 )
 
 
