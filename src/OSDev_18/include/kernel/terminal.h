@@ -34,5 +34,6 @@ void TerminalPutChar(char c);
 void TerminalWrite(const char* data, size_t size);
 void TerminalWriteString(const char* data);
 void TerminalWriteUInt(uint32_t num);
+void TerminalWriteHex(uint32_t memory);
 
 #endif

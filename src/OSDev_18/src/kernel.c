@@ -5,6 +5,14 @@
 #include <kernel/interrupt.h>
 #include <kernel/keyboard.h>
 #include <kernel/memory.h>
+#include <kernel/pit.h>
+
+
+/*TODO
+clean up terminal - enable scrolling?
+
+*/
+
 
 extern uint32_t end;
 
@@ -12,12 +20,13 @@ void main(void) {
     TerminalInitialize();
     GdtInitialize();
     IdtInitialize();
+    PitInitialize();
 
     RegisterInterruptHandler(IRQ1, KeyboardHandler);
 
-    init_kernel_memory(&end);
-    init_paging();
-    print_memory_layout();
+    InitKernelMemory(&end);
+    InitPaging();
+    PrintMemoryLayout();
 
     void* memory1 = malloc(48261);
     void* memory2 = malloc(27261);
@@ -42,6 +51,8 @@ void main(void) {
     TerminalWriteString("memory4 = ");
     TerminalWriteHex((uint32_t)memory4);
     TerminalWriteString("\n");
+
+    SleepTest();
 
     for (;;) {
         __asm__ volatile("hlt");

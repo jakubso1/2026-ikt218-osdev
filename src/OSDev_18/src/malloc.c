@@ -12,7 +12,7 @@ static uint32_t pheap_end = 0;
 static uint8_t *pheap_desc = 0;
 static uint32_t memory_used = 0;
 
-void init_kernel_memory(uint32_t* kernel_end) {
+void InitKernelMemory(uint32_t* kernel_end) {
     uint32_t kernelEndAddr = (uint32_t)kernel_end;
 
     last_alloc = kernelEndAddr + 0x1000;
@@ -28,7 +28,7 @@ void init_kernel_memory(uint32_t* kernel_end) {
     TerminalWriteString("\n");
 }
 
-void print_memory_layout(void) {
+void PrintMemoryLayout(void) {
     TerminalWriteString("Memory used:");
     TerminalWriteUInt(memory_used);
     TerminalWriteString(" bytes\n");

@@ -25,7 +25,7 @@ void paging_enable() {
     asm volatile("mov %eax, %cr0");
 }
 
-void init_paging(void) {
+void InitPaging(void) {
     TerminalWriteString("Setting up paging\n");
 
     page_directory = (uint32_t*)0x400000;
