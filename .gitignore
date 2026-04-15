@@ -20,3 +20,6 @@ devcontainer.json
 .devcontainer/devcontainer.json
 docs/
 assignment_files/
+build/OSDev_18/Makefile
+build/OSDev_18/compile_commands.json
+build/OSDev_18/cmake_install.cmake
