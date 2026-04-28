@@ -4,13 +4,13 @@
 #include "libc/stddef.h"
 #include "libc/stdint.h"
 
-// Initialiser terminal-skjermen
+// Initialiser terminal-screen
 void terminal_initialize(void);
 
-// Skriv en karakter til terminalen
+// Write a character to the terminal output
 void terminal_putchar(char c);
 
-// Skriv en string til terminalen (printf)
+// Write a string to the terminal output (printf)
 void printf(const char* data);
 
 #endif

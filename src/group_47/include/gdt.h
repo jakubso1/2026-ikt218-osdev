@@ -3,27 +3,27 @@
 
 #include "libc/stdint.h"
 
-// En struktur som beskriver en GDT-oppføring
+// A structure that describes a GDT entry
 struct gdt_entry_struct {
-    uint16_t limit_low;     // De laveste 16 bitene av limit
-    uint16_t base_low;      // De laveste 16 bitene av base
-    uint8_t  base_middle;   // De neste 8 bitene av base
-    uint8_t  access;        // Tilgangsrettigheter (hvilken ring, Code/Data osv)
-    uint8_t  granularity;   // Flagg for størrelse og de siste 4 bitene av limit
-    uint8_t  base_high;     // De siste 8 bitene av base
-} __attribute__((packed)); // "__attribute__((packed))" stopper C fra å legge til ekstra mellomrom
+    uint16_t limit_low;     // The lowest 16 bits of the limit
+    uint16_t base_low;      // The lowest 16 bits of the base address
+    uint8_t  base_middle;   // The next 8 bits of the base address
+    uint8_t  access;        // Access rights (which ring, Code/Data etc)
+    uint8_t  granularity;   // Flag for size and the last 4 bits of the limit
+    uint8_t  base_high;     // The last 8 bits of the base address
+} __attribute__((packed)); 
 
 typedef struct gdt_entry_struct gdt_entry_t;
 
-// En struktur som beskriver GDT-pekeren (GDTR) som vi sender til CPU-en
+// The GDT pointer structure (GDTR) that we load into the CPU
 struct gdt_ptr_struct {
-    uint16_t limit;               // Størrelsen på GDT-tabellen minus 1
-    uint32_t base;                // Adressen til den første gdt_entry_t
+    uint16_t limit;               // Biggest index in the GDT
+    uint32_t base;                // The address of the first gdt_entry_t
 } __attribute__((packed));
 
 typedef struct gdt_ptr_struct gdt_ptr_t;
 
-// Funksjon for å sette opp GDT - denne kaller du fra kernel.c
+// Function to initialize the GDT - this is called from kernel.c
 void init_gdt();
 
 #endif
