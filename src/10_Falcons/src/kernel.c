@@ -1,3 +1,4 @@
+#include <kernel/piano.h>
 #include <kernel/terminal.h>
 #include <stdint.h>
 #include <kernel/memory.h>
@@ -106,6 +107,7 @@ void kernel_main(void) {
     printf("[MEM] free/reuse test: mem4=0x%x\n", (uint32_t)mem4);
 
     init_pit();
+    piano_init();
     __asm__ volatile ("sti");
     printf("[PIT] Testing busy sleep 250 ms...\n");
     sleep_busy(250);

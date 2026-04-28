@@ -164,4 +164,5 @@ target_sources(uiaos-kernel PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/pit.c
     src/song_player.c
     src/speaker.c
+    src/piano.c
 )
